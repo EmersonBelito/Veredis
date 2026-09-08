@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños Veredis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Music -->
+    <iframe id="bg-music" width="0" height="0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+    <!-- Pantalla de inicio -->
+    <div id="intro-screen">
+        <button id="btn-iniciar">Iniciar</button>
+    </div>
+
+    <!-- Canvas para estrellas -->
+    <canvas id="starfield"></canvas>
+
+    <!-- Contenido principal -->
+    <div id="main-content" class="hidden">
+        <button id="btn-cambiar-musica" style="position: absolute; top: 15px; right: 15px; background-color: #3498db; color: white; border: 2px solid #2980b9; border-radius: 20px; padding: 10px 15px; font-weight: bold; cursor: pointer; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">🎵 Cambiar música</button>
+        <h1 id="animated-text">FELIZ CUMPLEAÑOS VEREDIS SOFIA</h1>
+        
+
+
+        <div class="buttons">
+            <button id="btn-regalo">Tu Regalo</button>
+            <button id="btn-ruleta">Juego de Ruleta</button>
+        </div>
+
+        <div id="ruleta-container" class="hidden">
+            <div class="ruleta">
+                <div class="wheel" id="wheel"></div>
+                <div class="pointer"></div>
+            </div>
+            <p style="font-size: 1rem; color: #ffd700; font-weight: bold; margin-bottom: 10px;">¡Aviso! Tienes 5 intentos, pero solo puedes ganar 2 regalos como máximo.</p>
+            <button id="spin-btn">Girar Ruleta (<span id="intentos">5</span> intentos)</button>
+            <p id="resultado"></p>
+            <button id="btn-reclamar" class="hidden">¡Reclamar regalo!</button>
+        </div>
+        
+        <div id="regalo-container" class="hidden">
+            <h2>¡Aquí tienes tu sorpresa especial!</h2>
+            <p>Espero que pases un día increíble, lleno de alegría, bendiciones y mucho amor. ¡Te lo mereces!</p>
+            <p style="font-size: 1.3rem; font-weight: bold; color: #ffd700; margin-top: 15px;">¿Aún recuerdas esta escena?</p>
+            <img src="img/sofia.jpg" alt="Regalo Sorpresa" style="border-radius: 15px; margin-top: 15px; width: 100%; max-width: 650px; border: 3px solid #2ecc71;">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
