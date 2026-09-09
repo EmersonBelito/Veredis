@@ -164,10 +164,20 @@ btnReclamar.addEventListener('click', () => {
         mensaje = `¡Hola de nuevo! ¡Gané mi segundo regalo en la ruleta! Es: *${premioGano}*. ¡Aquí te envío la captura de pantalla!`;
     }
     
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=51925449328&text=${encodeURIComponent(mensaje)}`;
+    const encodedMessage = encodeURIComponent(mensaje);
+    // Detectar si el usuario está en un celular
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    // Si es celular, usar el protocolo nativo 'whatsapp://' que abre la app directamente. 
+    // Si es PC, usar 'wa.me' que abre WhatsApp Web o la app de escritorio.
+    const whatsappUrl = isMobile 
+        ? `whatsapp://send?phone=51925449328&text=${encodedMessage}` 
+        : `https://wa.me/51925449328?text=${encodedMessage}`;
     
     alert("¡Felicidades Veredis! Te vamos a redirigir a WhatsApp. No olvides tomar la captura de pantalla antes o adjuntarla en el chat para reclamar tu premio.");
-    window.open(whatsappUrl, '_blank');
+    
+    // Cambiar window.open a location.href para asegurar que los deep links (whatsapp://) funcionen bien en navegadores móviles
+    window.location.href = whatsappUrl;
 });
 
 // --- Lógica del Fondo de Estrellas 3D ---
@@ -233,14 +243,14 @@ animateStars();
 // --- Lógica de Animación de Texto (Anagramas y Frases) ---
 const animH1 = document.getElementById('animated-text');
 const phrasesPool = [
-    "FELIZ CUMPLEAÑOS VEREDIS SOFIA",
-    "¿QUE HACES LEYENDO ESTE MENSAJE (º_º) SI PUEDES LLAMARME?",
-    "LLEVO TIEMPO DICIENDOME 'SOLO ES UNA AMIGA', PERO HOY QUE CUMPLES AÑOS SE ME OLVIDO LA EXCUSA. FELIZ CUMPLE",
-    "TE QUIERO INVITAR A CENAR. ¿ALGUNA OBJECION? 🍰",
-    "TE HE PERDONADO POR EXISTIR Y POR SER TAN GUAPA. DE NADA. 🎂",
-    "SI HOY TE TOCA PEDIR UN DESEO, PIDE QUE YO ESTE EN EL. PARA MOLESTARTE",
-    "HOY ES TU CUMPLEAÑOS, NO EL MIO. PERO SI DE ALGO ME ALEGRO ES DE QUE NACISTE, PORQUE SI NO, NO ME HABRIAS CONOCIDO. DE NADA, UNIVERSO.",
-    "NO SE QUE PONERTE, ASI QUE: TU PASTEL HOY LO PONGO YO. ¿TRATO?"
+    "FELIZ CUMPLEAÑOS\nVEREDIS SOFIA",
+    "¿QUE HACES LEYENDO ESTE MENSAJE (º_º)\nSI PUEDES LLAMARME?",
+    "LLEVO TIEMPO DICIENDOME 'SOLO ES UNA AMIGA',\nPERO HOY QUE CUMPLES AÑOS SE ME OLVIDO LA EXCUSA.\nFELIZ CUMPLE",
+    "TE QUIERO INVITAR A CENAR.\n¿ALGUNA OBJECION? 🍰",
+    "TE HE PERDONADO POR EXISTIR\nY POR SER TAN GUAPA.\nDE NADA. 🎂",
+    "SI HOY TE TOCA PEDIR UN DESEO,\nPIDE QUE YO ESTE EN EL. PARA MOLESTARTE",
+    "HOY ES TU CUMPLEAÑOS, NO EL MIO.\nPERO SI DE ALGO ME ALEGRO ES DE QUE NACISTE,\nPORQUE SI NO, NO ME HABRIAS CONOCIDO.\nDE NADA, UNIVERSO.",
+    "NO SE QUE PONERTE, ASI QUE:\nTU PASTEL HOY LO PONGO YO. ¿TRATO?"
 ];
 
 let currentPhraseIdx = 0;
@@ -260,6 +270,11 @@ function initTextAnimation() {
         if(char === ' ') {
             sp.style.width = '15px'; // Ancho del espacio
             sp.style.opacity = 0;
+        } else if (char === '\n') {
+            sp.style.width = '100%'; // Forzar salto de línea en flexbox
+            sp.style.height = '0';
+            sp.style.opacity = 0;
+            sp.textContent = ''; // Limpiar el texto
         } else {
             sp.style.color = textColors[Math.floor(Math.random() * textColors.length)];
         }
@@ -287,13 +302,21 @@ function changePhrase() {
             let char = target[i] || ' ';
             sp.textContent = char;
             sp.style.transform = 'translate(0, 0) rotate(0deg) scale(1)';
-            if (char !== ' ') {
+            
+            if (char === '\n') {
+                sp.style.opacity = 0;
+                sp.style.width = '100%'; // Forzar salto de línea
+                sp.style.height = '0';
+                sp.textContent = ''; // Que no se vea el salto
+            } else if (char !== ' ') {
                 sp.style.opacity = 1;
                 sp.style.width = 'auto';
+                sp.style.height = 'auto';
                 sp.style.color = textColors[Math.floor(Math.random() * textColors.length)];
             } else {
                 sp.style.opacity = 0;
                 sp.style.width = '15px';
+                sp.style.height = 'auto';
             }
         });
     }, 1500); 

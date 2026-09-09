@@ -231,6 +231,12 @@ h1 {
 
 /* --- Media Queries para Teléfonos (Responsividad) --- */
 @media (max-width: 600px) {
+    body::before {
+        width: 180vw; /* Si la imagen tiene bordes transparentes, esto asegura que el dibujo use toda la pantalla */
+        height: 180vh;
+        opacity: 0.4; /* Hacerlo mucho más visible */
+    }
+
     .container, #main-content {
         padding: 10px;
     }
