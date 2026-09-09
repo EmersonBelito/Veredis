@@ -106,12 +106,18 @@ spinBtn.addEventListener('click', () => {
         btnReclamar.classList.add('hidden');
 
         let isWin = false;
-        if (winsLeft > 0 && losesLeft > 0) {
-            isWin = Math.random() < (winsLeft / (winsLeft + losesLeft));
-        } else if (winsLeft > 0) {
-            isWin = true;
-        } else {
+        // Obligar a que los 2 primeros giros (cuando quedan 4 o 3 intentos tras descontar el actual) sean "Vuelve a intentarlo"
+        if (intentos >= 3) {
             isWin = false;
+        } else {
+            // Los últimos 3 giros se reparten para asegurar que gane los 2 premios y falle el 1 restante
+            if (winsLeft > 0 && losesLeft > 0) {
+                isWin = Math.random() < (winsLeft / (winsLeft + losesLeft));
+            } else if (winsLeft > 0) {
+                isWin = true;
+            } else {
+                isWin = false;
+            }
         }
 
         const winIndices = [0, 2, 4, 5, 6, 8];
